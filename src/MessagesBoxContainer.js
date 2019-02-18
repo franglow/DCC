@@ -5,6 +5,7 @@ import MessagesBox from './MessagesBox'
 class MessagesBoxContainer extends Component {
 
   toggleClass(author) {
+    // This case should compare ID's.
     if (author === this.props.currentUser){
       return "item-group item-right"
     } else{
