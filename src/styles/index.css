@@ -81,6 +81,7 @@ code {
 
 .item-left {
   margin-left: 1rem;
+  margin-right: 1rem;
   float: left;
 }
 
@@ -91,6 +92,7 @@ code {
 .container .item-group.item-right {
   float: right;
   margin-right: 1rem;
+  margin-left: 1rem;
   background-color: #f9e8b3;
 }
 
