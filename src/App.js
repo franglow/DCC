@@ -1,25 +1,48 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './styles/App.css'
+import * as api from './utils/api'
+import MessagesBoxContainer from './MessagesBoxContainer'
+import InputBox from './InputBox'
 
 class App extends Component {
+
+  state = {
+    messages: [],
+    user: 'Fran'//from logged user?
+  }
+
+  componentDidMount() {
+    api.getAll().then( messages => {
+      this.setState(() => ({ messages }))
+    })
+  }
+
+  sendMessage(info) {
+    info = {...info, author: this.state.user}
+    api.sendMessage(info).then( sendResp => {
+      api.getAll().then( messages => {
+        this.setState((state) => ({
+          messages : state.messages.concat(
+            [sendResp])
+        }))
+      })
+    })
+  }
+
   render() {
+    const { messages } = this.state
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <main>
+          <MessagesBoxContainer
+            currentUser={this.state.user}
+            list={messages} />
+          <InputBox
+            onSendMessage={(message) => {
+              this.sendMessage(message)
+            }}
+          />
+        </main>
       </div>
     );
   }
